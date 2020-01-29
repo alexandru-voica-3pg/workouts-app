@@ -5,7 +5,7 @@ import WorkoutsScreen from './modules/Workouts';
 
 const MainNavigator = createStackNavigator({
 	Home: { screen: HomeScreen },
-	Profile: { screen: WorkoutsScreen }
+	Workouts: { screen: WorkoutsScreen }
 });
 
 const App = createAppContainer(MainNavigator);
