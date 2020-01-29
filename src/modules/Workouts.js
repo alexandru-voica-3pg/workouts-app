@@ -29,7 +29,8 @@ class WorkoutsScreen extends React.Component {
 				self.setState({
 					exercises: response.results
 				});
-			});
+			})
+			.catch(error => console.log(error));
 	}
 }
 

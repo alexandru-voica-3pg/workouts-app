@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		padding: 5
+	},
+	title: {
+		fontSize: 32
 	}
 });
 
@@ -22,11 +25,11 @@ class HomeScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<Card size='large' handler={() => navigate('Workouts')}>
-					<Text>Exercises</Text>
+					<Text style={styles.title}>Exercises</Text>
 				</Card>
-				<Card size='large' handler={() => navigate('Workouts')} />
-				<Card size='small' handler={() => navigate('Workouts')} />
-				<Card size='small' handler={() => navigate('Workouts')} />
+				<Card size='large' handler={() => navigate('Workouts')}>
+					<Text style={styles.title}>Workouts</Text>
+				</Card>
 			</View>
 		);
 	}
