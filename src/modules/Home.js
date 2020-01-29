@@ -24,10 +24,10 @@ class HomeScreen extends React.Component {
 
 		return (
 			<View style={styles.container}>
-				<Card size='large' handler={() => navigate('Workouts')}>
+				<Card size='large' handler={() => navigate('Exercises')}>
 					<Text style={styles.title}>Exercises</Text>
 				</Card>
-				<Card size='large' handler={() => navigate('Workouts')}>
+				<Card size='large' handler={() => navigate('Exercises')}>
 					<Text style={styles.title}>Workouts</Text>
 				</Card>
 			</View>
