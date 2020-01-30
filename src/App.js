@@ -1,13 +1,17 @@
+import React from 'react';
+import Navigator from './Navigator';
+import { View, StyleSheet } from 'react-native';
 import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from './modules/Home';
-import ExercisesScreen from './modules/Exercises';
 
-const MainNavigator = createStackNavigator({
-	Home: { screen: HomeScreen },
-	Exercises: { screen: ExercisesScreen }
+const styles = StyleSheet.create({
+	container: {},
+	bottomBar: {
+		height: 50,
+		backgroundColor: 'red',
+		width: '100%'
+	}
 });
 
-const App = createAppContainer(MainNavigator);
+const App = createAppContainer(Navigator);
 
 export default App;

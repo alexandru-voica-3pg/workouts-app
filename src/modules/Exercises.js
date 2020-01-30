@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, ScrollView, View } from 'react-native';
 import Card from '../components/Card';
 
 const styles = StyleSheet.create({
@@ -7,17 +7,34 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		padding: 5
+		padding: 5,
+		marginBottom: 50,
+		shadowColor: '#a8a8a8',
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.5,
+		shadowRadius: 2
+	},
+	cards: {
+		height: '100%'
 	}
 });
 
-class ExercisesScreen extends React.Component {
+interface State {
+	exercises: Array;
+	error: boolean;
+}
+
+class ExercisesScreen extends React.Component<any, State> {
 	static navigationOptions = {
 		title: 'Exercises'
 	};
 
 	state = {
-		exercises: []
+		exercises: [],
+		error: false
 	};
 
 	componentDidMount() {
@@ -26,20 +43,38 @@ class ExercisesScreen extends React.Component {
 
 	render() {
 		const { navigation } = this.props;
+		const { error } = this.state;
 
-		return <View style={styles.container}>{this.renderExercises()}</View>;
+		if (error) {
+			return <Text>error</Text>;
+		} else {
+			return (
+				<View style={styles.container}>
+					<ScrollView
+						style={styles.cards}
+						contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}
+					>
+						{this.renderExercises()}
+					</ScrollView>
+				</View>
+			);
+		}
 	}
 
 	renderExercises() {
 		const { exercises } = this.state;
 
 		if (exercises.length) {
-			return exercises.map(exercise => {
-				return (
-					<Card key={exercise.id} size='small'>
-						<Text>{exercise.name}</Text>
-					</Card>
-				);
+			return exercises.map((exercise, index) => {
+				const { name } = exercise;
+
+				if (name) {
+					return (
+						<Card key={index} size='small'>
+							<Text>{name}</Text>
+						</Card>
+					);
+				}
 			});
 		} else {
 			return <Text>no exercises available</Text>;
@@ -48,7 +83,7 @@ class ExercisesScreen extends React.Component {
 
 	fetchExercises() {
 		const self = this;
-		const url = 'https://wger.de/api/v2/exerciseinfo';
+		const url = 'http://wger.de/api/v2/exerciseinfo/';
 		fetch(url)
 			.then(response => response.json())
 			.then(response => {
@@ -59,16 +94,7 @@ class ExercisesScreen extends React.Component {
 			.catch(error => {
 				console.log(error);
 				self.setState({
-					exercises: [
-						{
-							id: 1,
-							name: 'Dumbell presses'
-						},
-						{
-							id: 2,
-							name: 'Weighted bar presses'
-						}
-					]
+					error: true
 				});
 			});
 	}
