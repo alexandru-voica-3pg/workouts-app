@@ -2,6 +2,8 @@ import React from 'react';
 import Navigator from './Navigator';
 import { View, StyleSheet } from 'react-native';
 import { createAppContainer } from 'react-navigation';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const styles = StyleSheet.create({
 	container: {},
@@ -14,4 +16,10 @@ const styles = StyleSheet.create({
 
 const App = createAppContainer(Navigator);
 
-export default App;
+const AppWithProvider = () => (
+	<Provider store={store}>
+		<App />
+	</Provider>
+);
+
+export default AppWithProvider;

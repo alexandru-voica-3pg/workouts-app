@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './modules/Home';
-import ExercisesScreen from './modules/Exercises';
+import ExercisesScreen from './modules/ExercisesScreen';
 
 const RouteConfigs = {
 	Home: { screen: HomeScreen },
