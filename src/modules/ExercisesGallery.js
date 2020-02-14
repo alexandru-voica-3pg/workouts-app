@@ -15,22 +15,22 @@ class ExercisesGallery extends React.Component {
 		const { exercises } = this.props;
 
 		if (exercises.length) {
-			return exercises.map((exercise, index) => {
-				const { name } = exercise;
+			return exercises.map(exercise => {
+				const { name, id } = exercise;
 
-				if (name) {
-					return (
-						<Card
-							key={index}
-							size='small'
-							handler={() => {
-								this.props.login({ user: 'a', pass: 'b' });
-							}}
-						>
-							<Text>{name}</Text>
-						</Card>
-					);
-				}
+				return (
+					<Card
+						key={id}
+						size='small'
+						handler={() => {
+							this.props.navigation.navigate('ExerciseDetails', {
+								id
+							});
+						}}
+					>
+						<Text>{name || 'no name'}</Text>
+					</Card>
+				);
 			});
 		} else {
 			return <Text>no exercises available</Text>;

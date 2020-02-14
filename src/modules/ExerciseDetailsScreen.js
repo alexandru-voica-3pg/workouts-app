@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, ScrollView, View } from 'react-native';
-import ExercisesGallery from './ExercisesGallery';
+import ExerciseDetails from './ExerciseDetails';
 
 const styles = StyleSheet.create({
 	container: {
@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
 	}
 });
 
-class ExercisesScreen extends React.Component<any, State> {
+class ExerciseDetailsScreen extends React.Component<any, any> {
 	static navigationOptions = {
-		title: 'Exercises'
+		title: 'Exercise Details'
 	};
 
 	render() {
-		const { navigation } = this.props;
+		const id = this.props.navigation.getParam('id', null);
 
 		return (
 			<View style={styles.container}>
@@ -36,11 +36,11 @@ class ExercisesScreen extends React.Component<any, State> {
 					style={styles.galleryContainer}
 					contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}
 				>
-					<ExercisesGallery navigation={navigation} />
+					<ExerciseDetails id={id} />
 				</ScrollView>
 			</View>
 		);
 	}
 }
 
-export default ExercisesScreen;
+export default ExerciseDetailsScreen;

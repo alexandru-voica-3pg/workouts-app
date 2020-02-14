@@ -13,6 +13,11 @@ export const getAllExercises = () => ({
 	type: actions.exercises.GET_ALL
 });
 
+export const getExerciseDetails = id => ({
+	type: actions.exercises.GET_ONE,
+	id
+});
+
 export const fetchStatusPending = () => ({
 	type: actions.exercises.FETCH_PENDING
 });
@@ -27,5 +32,10 @@ export const fetchStatusError = () => ({
 
 export const addExerciseBatch = (exercises: Array<any>) => ({
 	type: actions.exercises.ADD_MULTIPLE,
-	data: exercises
+	exercises
+});
+
+export const addExercise = (exerciseInfo: any) => ({
+	type: actions.exercises.ADD_ONE,
+	info: exerciseInfo
 });

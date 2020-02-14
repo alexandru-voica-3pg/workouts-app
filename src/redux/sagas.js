@@ -1,12 +1,12 @@
 import { takeEvery, take, call, put, all } from 'redux-saga/effects';
 import { actions } from './actions';
 import * as actionCreators from './actionCreators';
-import { fetchExercises } from '../api';
+import { fetchAllExercises, fetchExerciseDetails } from '../api';
 
 function* handleGetExercisesSaga() {
 	yield put(actionCreators.fetchStatusPending());
 	try {
-		const exercises = yield call(fetchExercises);
+		const exercises = yield call(fetchAllExercises);
 		yield put(actionCreators.fetchStatusSuccess());
 		yield put(actionCreators.addExerciseBatch(exercises));
 	} catch (error) {
@@ -17,6 +17,22 @@ function* handleGetExercisesSaga() {
 function* watchGetExercisesSaga() {
 	// this saga uses non-blocking effects
 	yield takeEvery(actions.exercises.GET_ALL, handleGetExercisesSaga);
+}
+
+function* handleGetExerciseDetailsSaga(id: any) {
+	try {
+		const info = yield call(fetchExerciseDetails, id);
+		yield put(actionCreators.addExercise(info));
+	} catch (error) {
+		console.log(error.message);
+	}
+}
+
+function* watchGetExerciseDetailsSaga() {
+	while (true) {
+		const { id } = yield take(actions.exercises.GET_ONE);
+		yield call(handleGetExerciseDetailsSaga, id);
+	}
 }
 
 function* handleLoginSaga() {
@@ -36,6 +52,9 @@ function* watchAuthSaga() {
 }
 
 export function* rootSaga() {
-	console.log('root saga');
-	yield all([watchAuthSaga(), watchGetExercisesSaga()]);
+	yield all([
+		watchAuthSaga(),
+		watchGetExercisesSaga(),
+		watchGetExerciseDetailsSaga()
+	]);
 }

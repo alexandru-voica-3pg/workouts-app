@@ -44,7 +44,21 @@ const exercisesInitialState = [];
 const exercisesReducer = (state = exercisesInitialState, action) => {
 	switch (action.type) {
 		case actions.exercises.ADD_MULTIPLE:
-			return action.data;
+			return action.exercises;
+		default:
+			return state;
+	}
+};
+
+const exerciseDetailsInitialState = {};
+
+const exerciseDetailsReducer = (
+	state = exerciseDetailsInitialState,
+	action
+) => {
+	switch (action.type) {
+		case actions.exercises.ADD_ONE:
+			return action.info;
 		default:
 			return state;
 	}
@@ -53,5 +67,6 @@ const exercisesReducer = (state = exercisesInitialState, action) => {
 export const rootReducer = combineReducers({
 	status: statusReducer,
 	auth: authReducer,
-	exercises: exercisesReducer
+	exercises: exercisesReducer,
+	exerciseDetails: exerciseDetailsReducer
 });
