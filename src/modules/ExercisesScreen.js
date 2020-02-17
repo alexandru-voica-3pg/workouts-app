@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import ExercisesGallery from './ExercisesGallery';
 
 const styles = StyleSheet.create({
@@ -8,21 +8,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		padding: 5,
-		marginBottom: 50,
-		shadowColor: '#a8a8a8',
-		shadowOffset: {
-			width: 0,
-			height: 2
-		},
-		shadowOpacity: 0.5,
-		shadowRadius: 2
-	},
-	galleryContainer: {
-		height: '100%'
+		marginBottom: 50
 	}
 });
 
-class ExercisesScreen extends React.Component<any, State> {
+class ExercisesScreen extends React.Component {
 	static navigationOptions = {
 		title: 'Exercises'
 	};
@@ -32,12 +22,7 @@ class ExercisesScreen extends React.Component<any, State> {
 
 		return (
 			<View style={styles.container}>
-				<ScrollView
-					style={styles.galleryContainer}
-					contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}
-				>
-					<ExercisesGallery navigation={navigation} />
-				</ScrollView>
+				<ExercisesGallery navigation={navigation} />
 			</View>
 		);
 	}

@@ -11,8 +11,12 @@ const generic = async (url: string, manipulate: any => any) => {
 
 export const fetchAllExercises = async () => {
 	const url = 'http://wger.de/api/v2/exercise';
+	const query = [
+		'limit=50',
+		'language=2' // english
+	];
 
-	return await generic(url, data => {
+	return await generic(`${url}?${query.join('&')}`, data => {
 		if ('results' in data) {
 			const { results } = data;
 
