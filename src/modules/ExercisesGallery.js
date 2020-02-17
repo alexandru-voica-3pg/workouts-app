@@ -7,7 +7,8 @@ import {
 	StyleSheet,
 	ScrollView,
 	View,
-	TouchableOpacity
+	TouchableOpacity,
+	FlatList
 } from 'react-native';
 import Card from '../components/Card';
 
@@ -50,57 +51,70 @@ const LoadMoreButton = ({ handler }) => {
 	);
 };
 
-const Exercises = ({ exercises, handleClick }) => {
-	if (exercises.length) {
-		return exercises.map(exercise => {
-			const { name, id } = exercise;
-
-			return (
-				<Card key={id} size='small' handler={() => handleClick(id)}>
-					<Text>{name || 'no name'}</Text>
-				</Card>
-			);
-		});
-	} else {
-		return (
-			<View style={{ width: '100%' }}>
-				<Text>no exercises available</Text>
-			</View>
-		);
-	}
-};
-
 class ExercisesGallery extends React.Component {
 	componentDidMount() {
 		this.props.login({ a: 'a', b: 'b' });
+
 		if (!this.props.exercises.length) {
 			this.props.getAllExercises();
 		}
 	}
 
-	render() {
-		const { exercises } = this.props;
+	renderItem({ item }) {
+		const { name, id } = item;
 
 		return (
-			<ScrollView
-				style={styles.galleryContainer}
-				contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}
+			<Card
+				key={id}
+				size='small'
+				handler={() =>
+					this.props.navigation.navigate('ExerciseDetails', { id })
+				}
 			>
-				<View style={styles.countView}>
-					<Text style={styles.countText}>
-						{exercises.length} exercises loaded
-					</Text>
-				</View>
-				<Exercises
-					exercises={exercises}
-					handleClick={id =>
-						this.props.navigation.navigate('ExerciseDetails', {
-							id
-						})
+				<Text>{name || 'no name'}</Text>
+			</Card>
+		);
+	}
+
+	render() {
+		const { exercises } = this.props;
+		const self = this;
+
+		return (
+			<FlatList
+				style={styles.galleryContainer}
+				data={exercises}
+				keyExtractor={item => `${item.id}`}
+				numColumns={2}
+				renderItem={this.renderItem.bind(self)}
+				ListEmptyComponent={() => {
+					return (
+						<View style={{ width: '100%' }}>
+							<Text style={{ textAlign: 'center' }}>
+								no exercises available
+							</Text>
+						</View>
+					);
+				}}
+				ListHeaderComponent={() => {
+					return (
+						<View style={styles.countView}>
+							<Text style={styles.countText}>
+								{exercises.length} exercises loaded
+							</Text>
+						</View>
+					);
+				}}
+				ListFooterComponent={() => {
+					if (exercises.length) {
+						return (
+							<LoadMoreButton handler={() => this.props.loadMoreExercises()} />
+						);
+					} else {
+						return null;
 					}
-				/>
-				<LoadMoreButton handler={() => this.props.loadMoreExercises()} />
-			</ScrollView>
+				}}
+			/>
 		);
 	}
 }
