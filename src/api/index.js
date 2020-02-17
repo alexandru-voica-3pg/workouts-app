@@ -9,10 +9,11 @@ const generic = async (url: string, manipulate: any => any) => {
 	return manipulate(data);
 };
 
-export const fetchAllExercises = async () => {
+export const fetchAllExercises = async (page = 1) => {
 	const url = 'http://wger.de/api/v2/exercise';
 	const query = [
-		'limit=50',
+		`page=${page}`,
+		'limit=20',
 		'language=2' // english
 	];
 

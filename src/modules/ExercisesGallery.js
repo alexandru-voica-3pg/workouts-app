@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		marginTop: 10,
 		marginLeft: 40,
-		marginRight: 40
+		marginRight: 40,
+		marginBottom: 30
 	},
 	loadMoreText: {
 		color: 'white',
@@ -41,9 +42,9 @@ const styles = StyleSheet.create({
 	}
 });
 
-const LoadMoreButton = handler => {
+const LoadMoreButton = ({ handler }) => {
 	return (
-		<TouchableOpacity style={styles.loadMoreButton}>
+		<TouchableOpacity style={styles.loadMoreButton} onPress={() => handler()}>
 			<Text style={styles.loadMoreText}>Load more</Text>
 		</TouchableOpacity>
 	);
@@ -61,7 +62,11 @@ const Exercises = ({ exercises, handleClick }) => {
 			);
 		});
 	} else {
-		return <Text>no exercises available</Text>;
+		return (
+			<View style={{ width: '100%' }}>
+				<Text>no exercises available</Text>
+			</View>
+		);
 	}
 };
 
@@ -94,7 +99,7 @@ class ExercisesGallery extends React.Component {
 						})
 					}
 				/>
-				<LoadMoreButton handler={() => {}} />
+				<LoadMoreButton handler={() => this.props.loadMoreExercises()} />
 			</ScrollView>
 		);
 	}
@@ -109,7 +114,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
 	login: actionCreators.login,
-	getAllExercises: actionCreators.getAllExercises
+	getAllExercises: actionCreators.getAllExercises,
+	loadMoreExercises: actionCreators.loadMoreExercises
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExercisesGallery);

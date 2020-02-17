@@ -18,6 +18,10 @@ export const getExerciseDetails = id => ({
 	id
 });
 
+export const loadMoreExercises = () => ({
+	type: actions.exercises.LOAD_MORE
+});
+
 export const fetchStatusPending = () => ({
 	type: actions.exercises.FETCH_PENDING
 });

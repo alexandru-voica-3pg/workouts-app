@@ -1,22 +1,27 @@
-import { takeEvery, take, call, put, all } from 'redux-saga/effects';
+import { takeEvery, take, call, put, all, select } from 'redux-saga/effects';
 import { actions } from './actions';
 import * as actionCreators from './actionCreators';
 import { fetchAllExercises, fetchExerciseDetails } from '../api';
 
+const getNextPage = state => state.nextPage;
+
 function* handleGetExercisesSaga() {
 	yield put(actionCreators.fetchStatusPending());
 	try {
-		const exercises = yield call(fetchAllExercises);
+		const page = yield select(getNextPage);
+		const exercises = yield call(fetchAllExercises, page);
 		yield put(actionCreators.fetchStatusSuccess());
 		yield put(actionCreators.addExerciseBatch(exercises));
 	} catch (error) {
 		yield put(actionCreators.fetchStatusError());
+		console.log(error);
 	}
 }
 
 function* watchGetExercisesSaga() {
 	// this saga uses non-blocking effects
 	yield takeEvery(actions.exercises.GET_ALL, handleGetExercisesSaga);
+	yield takeEvery(actions.exercises.LOAD_MORE, handleGetExercisesSaga);
 }
 
 function* handleGetExerciseDetailsSaga(id: any) {

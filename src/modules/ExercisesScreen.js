@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		padding: 5,
-		marginBottom: 50
+		padding: 5
+		// marginBottom: 50
 	}
 });
 
